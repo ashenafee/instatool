@@ -1,19 +1,40 @@
-from instagram_private_api import Client, ClientCompatPatch
-from typing import List
+from user import User
 
-def get_user_id(api, username) -> str:
-    """Return the user id of the user with the given username."""
-    user_info = api.username_info(username)
-    return user_info['user']['pk']
 
-def dnf_to_ids(api, dnf_list) -> List[str]:
-    """Return a list of all IDs of users the authenticated user is following but not following back."""
-    dnf_ids = []
-    for user in dnf_list:
-        dnf_ids.append(get_user_id(api, user))
-    return dnf_ids
+class Unfollow:
+    """An object meant to unfollow users."""
 
-def unfollow(api, dnf_ids) -> None:
-    """Unfollow all users in the dnf_ids list."""
-    for user_id in dnf_ids:
-        api.friendships_destroy(user_id)
+    def __init__(self, user: User):
+        self.user = user
+        self.api = user.get_api()
+
+    def unfollow(self, username: str) -> bool:
+        """Unfollow a specific user, given a username."""
+        print(f"Unfollowing {username}...")
+        self.api.friendships_destroy(
+            self.api.username_info(username)["user"]["pk"])
+        print("Unfollowed!")
+        return True
+
+    def unfollow_all(self) -> bool:
+        """Unfollow all users that self.user follows."""
+        print(
+            f"Unfollowing all users that {self.user.get_username()} follows...")
+        following = self.user.get_following_list()
+        for user in following:
+            self.api.friendships_destroy(
+                self.api.username_info(user)["user"]["pk"])
+        print("Unfollowed all users!")
+        return True
+
+    def unfollow_hollywood(self) -> bool:
+        """Unfollow all users that don't follow self.user back."""
+        print(
+            f"Unfollowing all users that don't follow "
+            f"{self.user.get_username()} back...")
+        hollywood = self.user.get_hollywood_list()
+        for user in hollywood:
+            self.api.friendships_destroy(
+                self.api.username_info(user)["user"]["pk"])
+        print("Unfollowed all hollywood users!")
+        return True

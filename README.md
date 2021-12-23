@@ -1,5 +1,5 @@
 # instatool
-A simple unfollowing tool for Instagram.
+A simple multi-purpose tool for Instagram.
 
 ## setup
 Make sure you have the latest version of Python installed.
@@ -13,5 +13,17 @@ This installs the dependency for this script to work.
 ## usage
 Run `main.py` and enter your username and password at the prompts.
 
-The script will gather all of your followers, the users you follow,
-and unfollow anyone who you follow that doesn't follow you.
+You will be greeted with a main menu full of options. The options are:
+
+| Option | Purpose                              |
+|--------|--------------------------------------|
+| 1      | Show users that don't follow you     |
+| 2      | Show users that you don't follow     |
+| 3      | Follow a specific user               |
+| 4      | Follow all followers back            |
+| 5      | Unfollow a specific user             |
+| 6      | Unfollow all users                   |
+| 7      | Unfollow all non-reciprocating users |
+| 8      | Remove a specific follower           |
+
+Depending on your chosen option, different things will be outputted to the console.
